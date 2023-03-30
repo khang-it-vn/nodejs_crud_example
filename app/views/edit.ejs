@@ -1,0 +1,68 @@
+<%-include('./layout/header.ejs')%>
+<div>
+    <!-- contact -->
+    <div class="contact">
+        <div class="container">
+           <div class="row">
+              <div class="col-md-12 ">
+                 <div class="titlepage text_align_center">
+                    <span>New Info Student</span>
+                 </div>
+              </div>
+              <div class="col-md-8 offset-md-2">
+                 <form id="request" class="main_form" action="/insert-student" method="post" enctype="application/x-www-form-urlencoded">
+                    <div class="row">
+                       <div class="col-md-12 ">
+                        <input class="form_control" placeholder="Your Name" type="type" name="Id" value="<%= student._id%>" hidden> 
+                          <input class="form_control" placeholder="Your Name" type="type" name="Masv" value="<%= student.Masv%>"> 
+                       </div>
+                       <div class="col-md-12">
+                          <input class="form_control" placeholder="Phone Number" type="type" name="Tensv" value="<%= student.Tensv%>">                          
+                       </div>
+                       <div class="col-md-12">
+                          <div id="submit-btn" class="group_btn">
+                          <button class="send_btn">Update</button>
+                        </div>
+                       </div>
+                    </div>
+                 </form>
+              </div>
+           </div>
+        </div>
+        
+     </div>
+     <script>
+        $(function() {
+          // handle form submission
+          $('#submit-btn').click(function(e) {
+            e.preventDefault();
+        
+            // get form data
+            var formData = $('#request').serialize();
+        
+            // send AJAX request
+            $.ajax({
+              url: '/update-student',
+              type: 'PUT',
+              data: formData,
+              headers: {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  },
+              success: function(response) {
+                // show success message
+                alert('Update student successfully!');
+                $('input[name="Masv"]').val('');
+                $('input[name="Tensv"]').val('');
+                console.log(response);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Error:', textStatus, errorThrown);
+              }
+            });
+          });
+        });
+        </script>
+     <!-- end contact -->
+
+</div>
+<%-include('./layout/footer.ejs')%>

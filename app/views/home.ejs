@@ -1,0 +1,41 @@
+<%-include('./layout/header.ejs')%>
+
+<div class="container">
+    <h1 class="text-center">Contact List</h1>
+    <table id="myTable" class="table">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Namesv</th>
+          <th>Tensv</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      </tbody>
+    </table>
+  </div>
+  <script>
+    // make an AJAX request to /getdata
+    $.ajax({
+      url: '/contact-list',
+      method: 'GET',
+      success: function(data) {
+        console.log(data);
+        data.forEach(function(element) {
+            
+          var newRow = '<tr><td>' + element._id + '</td><td>' + element.Name + '</td><td>' + element.Phonenumber + '</td><td>' + element.Email + '</td><td>' + element.Message + '</td></tr>';
+        
+          // append the new row to the table
+          $('#myTable tbody').append(newRow);
+        });
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log('Error:', textStatus, errorThrown);
+      }
+    });
+    </script>
+
+<%-include('./layout/footer.ejs')%>

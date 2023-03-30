@@ -1,0 +1,89 @@
+<%-include('./layout/header.ejs')%>
+    <style>
+        form {
+    width: 400px;
+    margin: auto;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #3e8e41;
+  }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <form id="request" enctype="application/x-www-form-urlencoded" action="/auth/login" method="post" >
+        <h2>Login</h2>
+        <label for="username">Username: </label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password: </label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit" id="submit-btn">Login</button>
+    </form>
+    <script>
+        $(function() {
+          // handle form submission
+          $('#submit-btn').click(function(e) {
+            e.preventDefault();
+        
+            // get form data
+            var formData = $('#request').serialize();
+        
+            // send AJAX request
+            $.ajax({
+              url: '/auth/login',
+              type: 'POST',
+              data: formData,
+              success: function(response) {
+                // show success message
+                console.log(response);
+
+                if(response.token)
+                {
+                    alert("Login successfull");
+                    localStorage.setItem('token', response.token);
+                    window.location.href = "http://localhost:30000/home";
+                }
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                alert("Login fail");}
+            });
+          });
+        });
+    </script>
+<%-include('./layout/footer.ejs')%>
